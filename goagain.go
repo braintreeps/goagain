@@ -103,9 +103,12 @@ func Relaunch(l *net.TCPListener) error {
 	if nil != err {
 		return err
 	}
-	wd, err := os.Getwd()
-	if nil != err {
-		return err
+	wd := os.Getenv("GOAGAIN_WD")
+	if wd == "" {
+		wd, err = os.Getwd()
+		if nil != err {
+			return err
+		}
 	}
 	err = os.Setenv("GOAGAIN_FD", fmt.Sprint(f.Fd()))
 	if nil != err {
